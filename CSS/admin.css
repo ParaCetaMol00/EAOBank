@@ -1,0 +1,176 @@
+/* =============================================
+   admin.css — Admin Page Styles
+   Location: CSS/admin.css
+   ============================================= */
+
+.admin-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 20px 60px;
+  animation: fadeIn 0.4s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.admin-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; color: var(--primary); margin-bottom: 4px;
+}
+
+.admin-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+
+/* ── Navbar extras ── */
+.btn-dash {
+  background: rgba(255,255,255,0.12); color: #fff;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+  padding: 7px 14px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; text-decoration: none;
+  display: flex; align-items: center; gap: 7px; transition: background 0.2s;
+}
+.btn-dash:hover { background: rgba(255,255,255,0.22); }
+
+/* ── Summary Cards ── */
+.summary-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 16px; margin-bottom: 40px;
+}
+
+.summary-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 20px 18px; display: flex; align-items: center; gap: 14px;
+}
+
+.summary-icon {
+  width: 44px; height: 44px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: #fff; flex-shrink: 0;
+}
+
+.users-icon { background: var(--primary); }
+.tx-icon    { background: #8E44AD; }
+.dep-icon   { background: var(--success); }
+.wit-icon   { background: var(--error); }
+.tra-icon   { background: var(--secondary); }
+
+.summary-label { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+.summary-value { font-size: 22px; font-weight: 700; color: var(--primary); }
+
+/* ── Sections ── */
+.admin-section { margin-bottom: 40px; }
+.admin-section-title { font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 14px; }
+
+/* ── Table ── */
+.table-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+}
+.table-wrapper { overflow-x: auto; }
+
+.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.admin-table thead { background: #F0F4F9; }
+.admin-table th {
+  padding: 12px 14px; text-align: left; font-size: 11.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.admin-table td {
+  padding: 11px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text); vertical-align: middle;
+}
+.admin-table tbody tr:last-child td { border-bottom: none; }
+.admin-table tbody tr:hover { background: #F8F9FC; }
+
+/* ── Badges ── */
+.role-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; text-transform: capitalize; }
+.role-badge.admin { background: rgba(142,68,173,0.12); color: #6C3483; }
+.role-badge.user  { background: rgba(10,61,98,0.10);   color: var(--primary); }
+
+.status-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+.status-badge.active  { background: rgba(46,204,113,0.12); color: #1A8A4A; }
+.status-badge.banned  { background: rgba(231,76,60,0.10);  color: #C0392B; }
+.status-badge.success { background: rgba(46,204,113,0.12); color: #1A8A4A; }
+.status-badge.failed  { background: rgba(231,76,60,0.10);  color: #C0392B; }
+
+.verify-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+.verify-badge.verified   { background: rgba(52,152,219,0.12); color: #1A6FA8; }
+.verify-badge.unverified { background: rgba(149,165,166,0.15); color: #707B7C; }
+
+.type-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; text-transform: capitalize; }
+.type-badge.deposit     { background: rgba(46,204,113,0.12); color: #1A8A4A; }
+.type-badge.withdraw    { background: rgba(231,76,60,0.10);  color: #C0392B; }
+.type-badge.transfer    { background: rgba(60,99,130,0.10);  color: #2C4F6E; }
+.type-badge.transfer-in { background: rgba(46,204,113,0.12); color: #1A8A4A; }
+
+/* ── Fail reason in table ── */
+.fail-reason {
+  font-size: 11px; color: #C0392B; margin-top: 3px;
+  font-style: italic;
+}
+
+/* ── More Button + Dropdown ── */
+.action-cell { position: relative; }
+
+.dropdown-wrapper { position: relative; display: inline-block; }
+
+.btn-more {
+  background: var(--primary); color: #fff;
+  border: none; border-radius: 7px;
+  padding: 6px 13px; font-size: 13px; font-weight: 600;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Sans', sans-serif; transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-more:hover { background: var(--secondary); }
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(10,61,98,0.14);
+  min-width: 180px;
+  z-index: 999;
+  overflow: hidden;
+  animation: dropIn 0.15s ease both;
+}
+
+.dropdown-menu.open { display: block; }
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.drop-item {
+  width: 100%; background: none; border: none;
+  padding: 10px 16px; text-align: left; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  cursor: pointer; display: flex; align-items: center; gap: 10px;
+  color: var(--text); transition: background 0.15s;
+}
+.drop-item:hover { background: #F5F6FA; }
+
+.drop-divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+.activity-item { color: var(--primary); font-weight: 700; }
+.ban-item      { color: #C0392B; }
+.unban-item    { color: #1A8A4A; }
+.verify-item   { color: #1A6FA8; }
+.unverify-item { color: #707B7C; }
+.balance-item  { color: #2C4F6E; }
+.delete-item   { color: #C0392B; }
+.delete-item:hover { background: rgba(231,76,60,0.06); }
+
+/* ── Loading ── */
+.tx-loading { text-align: center; color: var(--muted); padding: 36px !important; font-size: 14px; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }

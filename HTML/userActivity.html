@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — User Activity</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../CSS/generalStyles.css"/>
+  <link rel="stylesheet" href="../CSS/userActivity.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong> — Admin</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting">Admin</span>
+    </div>
+  </nav>
+
+  <main class="activity-main">
+
+    <a href="admin.html" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> Back to Admin
+    </a>
+
+    <!-- User Profile Card -->
+    <div class="user-summary-card">
+      <div class="user-avatar" id="userAvatar">?</div>
+      <div class="user-summary-info">
+        <h1 class="user-summary-name" id="userName">Loading…</h1>
+        <div class="user-summary-meta">
+          <span id="userEmail">—</span>
+          <span class="meta-dot">•</span>
+          <span id="userAccountNumber">—</span>
+          <span class="meta-dot">•</span>
+          <span id="userAccountType">—</span>
+        </div>
+      </div>
+      <div class="user-summary-balance">
+        <p class="balance-label">Current Balance</p>
+        <p class="balance-value" id="userBalance">—</p>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="ua-actions" id="actionButtons">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Stats Row -->
+    <div class="activity-stats">
+      <div class="stat-card">
+        <div class="stat-icon dep-icon"><i class="fa-solid fa-arrow-down-to-line"></i></div>
+        <div>
+          <p class="stat-label">Deposits</p>
+          <p class="stat-value" id="statDeposits">0</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon wit-icon"><i class="fa-solid fa-arrow-up-from-line"></i></div>
+        <div>
+          <p class="stat-label">Withdrawals</p>
+          <p class="stat-value" id="statWithdrawals">0</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon tra-icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+        <div>
+          <p class="stat-label">Transfers</p>
+          <p class="stat-value" id="statTransfers">0</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon all-icon"><i class="fa-solid fa-list"></i></div>
+        <div>
+          <p class="stat-label">Total</p>
+          <p class="stat-value" id="statTotal">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="admin-section">
+      <h2 class="admin-section-title">Transaction History</h2>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Description / Reason</th>
+                <th>Account / Sender / Receiver</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr><td colspan="6" class="tx-loading">Loading activity…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="../Javascript/userActivity.js"></script>
+</body>
+</html>

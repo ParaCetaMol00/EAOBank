@@ -1,0 +1,153 @@
+/* =============================================
+   profile.css — Profile Page Styles
+   Location: CSS/profile.css
+   ============================================= */
+
+.page-main {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+  animation: fadeIn 0.4s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--secondary);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--primary); }
+
+.page-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 30px 28px;
+}
+
+/* ── Profile Top ── */
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-avatar {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Playfair Display', serif;
+}
+
+.profile-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.profile-role {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  background: #F0F4F9;
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ── Details Grid ── */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+  margin-bottom: 28px;
+}
+
+.profile-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-value {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.balance-value {
+  color: var(--primary);
+  font-size: 17px;
+}
+
+/* ── Divider ── */
+.profile-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+/* ── Edit Section ── */
+.edit-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 14px;
+}
+
+.edit-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.edit-btn {
+  width: auto;
+  padding: 11px 22px;
+  margin-top: 0;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .profile-grid { grid-template-columns: 1fr; }
+  .page-card    { padding: 24px 18px 22px; }
+  .edit-row     { flex-direction: column; }
+  .edit-btn     { width: 100%; }
+}

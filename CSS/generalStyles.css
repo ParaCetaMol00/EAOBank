@@ -1,0 +1,251 @@
+/* =============================================
+   generalStyles.css — Shared Styles
+   Location: CSS/generalStyles.css
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap');
+
+:root {
+  --primary:   #0A3D62;
+  --secondary: #3C6382;
+  --bg:        #F5F6FA;
+  --success:   #2ECC71;
+  --error:     #E74C3C;
+  --text:      #222222;
+  --muted:     #6B7280;
+  --white:     #FFFFFF;
+  --border:    #DDE3F0;
+  --radius:    14px;
+  --shadow:    0 4px 24px rgba(10,61,98,0.09);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  /* No flexbox on body — navbar must sit at top naturally */
+}
+
+/* ══════════════════════════════════════
+   NAVBAR — Fixed to top of every page
+   ══════════════════════════════════════ */
+.navbar {
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 62px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 12px rgba(10,61,98,0.18);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo {
+  width: 34px;
+  height: 34px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.nav-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-greeting {
+  color: rgba(255,255,255,0.85);
+  font-size: 13.5px;
+}
+
+/* Logout button */
+.btn-logout {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 0.2s;
+}
+.btn-logout:hover { background: rgba(255,255,255,0.22); }
+
+/* ══════════════════════════════════════
+   FORM ELEMENTS
+   ══════════════════════════════════════ */
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input::placeholder,
+textarea::placeholder { color: #B0B8CC; }
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(60,99,130,0.12);
+}
+
+/* Custom select arrow */
+.select-wrapper { position: relative; }
+.select-wrapper::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 11px;
+  color: var(--muted);
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Password toggle */
+.input-icon-wrapper { position: relative; }
+.input-icon-wrapper input { padding-right: 42px; }
+
+.toggle-password {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 15px;
+  padding: 2px 4px;
+  outline: none;
+  transition: color 0.2s;
+}
+.toggle-password:hover { color: var(--secondary); }
+
+/* ══════════════════════════════════════
+   BUTTONS
+   ══════════════════════════════════════ */
+.btn-action {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  transition: opacity 0.2s, transform 0.1s;
+  color: #fff;
+}
+.btn-action:hover    { opacity: 0.88; }
+.btn-action:active   { transform: scale(0.98); }
+.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.deposit-btn  { background: var(--success); }
+.withdraw-btn { background: var(--error); }
+.transfer-btn { background: var(--secondary); }
+.primary-btn  { background: var(--primary); }
+
+/* ══════════════════════════════════════
+   MESSAGE BOX
+   ══════════════════════════════════════ */
+.message {
+  display: none;
+  margin-top: 16px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.message.success {
+  display: block;
+  background: rgba(46,204,113,0.12);
+  color: #1A8A4A;
+  border: 1px solid rgba(46,204,113,0.3);
+}
+
+.message.error {
+  display: block;
+  background: rgba(231,76,60,0.10);
+  color: #C0392B;
+  border: 1px solid rgba(231,76,60,0.25);
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════ */
+@media (max-width: 620px) {
+  .navbar { padding: 0 16px; }
+  .nav-greeting { display: none; }
+}

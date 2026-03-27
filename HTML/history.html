@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — Transaction History</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../CSS/generalStyles.css"/>
+  <link rel="stylesheet" href="../CSS/history.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong></span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting">Hello…</span>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main class="history-main">
+
+    <!-- Back link -->
+    <a href="../dashboard.html" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <!-- Page Header -->
+    <div class="history-header">
+      <div class="history-header-icon">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+      </div>
+      <div>
+        <h1 class="history-title">Transaction History</h1>
+        <p class="history-sub">All your past transactions in one place</p>
+      </div>
+    </div>
+
+    <!-- Transactions Table Card -->
+    <div class="table-card">
+      <div class="table-wrapper">
+        <table class="tx-table" id="txTable">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Description</th>
+              <th>Account / Sender / Receiver</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="txTableBody">
+            <!-- Rows injected by history.js -->
+            <tr>
+              <td colspan="6" class="tx-loading">Loading transactions…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="../Javascript/history.js"></script>
+</body>
+</html>

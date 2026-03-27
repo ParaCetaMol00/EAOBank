@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../CSS/generalStyles.css"/>
+  <link rel="stylesheet" href="../CSS/admin.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong> — Admin</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting">Admin</span>
+      <a href="../dashboard.html" class="btn-dash">
+        <i class="fa-solid fa-gauge"></i> Dashboard
+      </a>
+      <button class="btn-logout" id="logoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="admin-main">
+
+    <h1 class="admin-heading">Admin Dashboard</h1>
+    <p class="admin-sub">Manage users and monitor all transactions</p>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-icon users-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="summary-info">
+          <p class="summary-label">Total Users</p>
+          <p class="summary-value" id="totalUsers">—</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon tx-icon"><i class="fa-solid fa-list"></i></div>
+        <div class="summary-info">
+          <p class="summary-label">Total Transactions</p>
+          <p class="summary-value" id="totalTx">—</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon dep-icon"><i class="fa-solid fa-arrow-down-to-line"></i></div>
+        <div class="summary-info">
+          <p class="summary-label">Deposits</p>
+          <p class="summary-value" id="totalDeposits">—</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon wit-icon"><i class="fa-solid fa-arrow-up-from-line"></i></div>
+        <div class="summary-info">
+          <p class="summary-label">Withdrawals</p>
+          <p class="summary-value" id="totalWithdrawals">—</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon tra-icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+        <div class="summary-info">
+          <p class="summary-label">Transfers</p>
+          <p class="summary-value" id="totalTransfers">—</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="admin-section">
+      <h2 class="admin-section-title">All Users</h2>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Account No.</th>
+                <th>Type</th>
+                <th>Balance</th>
+                <th>Role</th>
+                <th>Status / Verified</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="9" class="tx-loading">Loading users…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="admin-section">
+      <h2 class="admin-section-title">All Transactions</h2>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Sender Account</th>
+                <th>Receiver Account</th>
+                <th>Status / Reason</th>
+                <th>Description</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="txTableBody">
+              <tr><td colspan="8" class="tx-loading">Loading transactions…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="../Javascript/admin.js"></script>
+</body>
+</html>

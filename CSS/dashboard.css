@@ -1,0 +1,347 @@
+/* =============================================
+   dashboard.css — Dashboard Page Styles
+   Location: CSS/dashboard.css
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap');
+
+:root {
+  --primary:   #0A3D62;
+  --secondary: #3C6382;
+  --bg:        #F5F6FA;
+  --success:   #2ECC71;
+  --error:     #E74C3C;
+  --text:      #222222;
+  --muted:     #6B7280;
+  --white:     #FFFFFF;
+  --border:    #DDE3F0;
+  --radius:    14px;
+  --shadow:    0 4px 24px rgba(10,61,98,0.09);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Navbar ── */
+.navbar {
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 62px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(10,61,98,0.18);
+}
+
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+
+.nav-logo {
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 15px;
+}
+
+.nav-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px; color: #fff;
+}
+
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-greeting { color: rgba(255,255,255,0.75); font-size: 13.5px; }
+
+.btn-logout {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 7px;
+  transition: background 0.2s;
+}
+.btn-logout:hover { background: rgba(255,255,255,0.22); }
+
+/* ── Banned Banner ── */
+#bannedBanner {
+  background: rgba(231,76,60,0.10);
+  border-bottom: 2px solid rgba(231,76,60,0.3);
+  color: #C0392B;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* ── Main layout ── */
+.dash-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 20px 60px;
+  animation: fadeIn 0.4s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Welcome row ── */
+.welcome-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.welcome-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.welcome-sub { font-size: 14px; color: var(--muted); }
+
+.welcome-date {
+  font-size: 13px; color: var(--muted);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  white-space: nowrap;
+}
+
+/* ── Account Card ── */
+.account-card {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 18px;
+  padding: 28px 30px;
+  color: #fff;
+  margin-bottom: 36px;
+  box-shadow: 0 8px 32px rgba(10,61,98,0.22);
+  position: relative;
+  overflow: hidden;
+}
+
+.account-card::before {
+  content: '';
+  position: absolute;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  top: -80px; right: -60px;
+}
+
+.account-card::after {
+  content: '';
+  position: absolute;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  bottom: -50px; left: 30px;
+}
+
+.card-label {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.card-value { font-size: 17px; font-weight: 600; color: #fff; }
+
+.card-type-badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px; font-weight: 600;
+  color: #fff;
+}
+
+.card-middle { margin-bottom: 24px; }
+
+.card-number {
+  font-size: 20px; font-weight: 600;
+  letter-spacing: 0.12em; color: #fff;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-balance {
+  font-size: 30px; font-weight: 700;
+  color: #fff; line-height: 1;
+}
+
+.card-chip { font-size: 28px; color: rgba(255,255,255,0.35); }
+
+/* ── Sections ── */
+.section { margin-bottom: 36px; }
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 16px; font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 14px;
+}
+
+.section-header .section-title { margin-bottom: 0; }
+
+.view-all {
+  font-size: 13px; color: var(--secondary);
+  font-weight: 600; text-decoration: none;
+}
+.view-all:hover { text-decoration: underline; }
+
+/* ── Quick Actions Grid ── */
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+/* When admin card is visible, expand to 6 columns */
+.actions-grid:has(#adminCard[style*="flex"]) {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.action-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 10px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 13px; font-weight: 500;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(10,61,98,0.13);
+}
+
+.action-icon {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: #fff;
+}
+
+.deposit-icon  { background: #2ECC71; }
+.withdraw-icon { background: #E74C3C; }
+.transfer-icon { background: #3C6382; }
+.history-icon  { background: #F39C12; }
+.profile-icon  { background: #0A3D62; }
+.admin-icon    { background: #8E44AD; } /* Purple for admin */
+
+/* Admin card has a subtle purple border to stand out */
+.admin-action-card {
+  border-color: rgba(142,68,173,0.25);
+  background: rgba(142,68,173,0.04);
+}
+
+.admin-action-card:hover {
+  border-color: rgba(142,68,173,0.4);
+  box-shadow: 0 8px 28px rgba(142,68,173,0.15);
+}
+
+/* ── Transactions List ── */
+.transactions-list {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.tx-item:last-child { border-bottom: none; }
+.tx-item:hover { background: #F8F9FC; }
+
+.tx-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+
+.tx-icon.credit { background: rgba(46,204,113,0.12); color: #27AE60; }
+.tx-icon.debit  { background: rgba(231,76,60,0.10);  color: #C0392B; }
+
+.tx-info { flex: 1; }
+.tx-type { font-size: 14px; font-weight: 600; color: var(--text); text-transform: capitalize; }
+.tx-date { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+.tx-amount { font-size: 15px; font-weight: 700; }
+.tx-amount.credit { color: #27AE60; }
+.tx-amount.debit  { color: #C0392B; }
+
+.tx-empty {
+  padding: 32px; text-align: center;
+  color: var(--muted); font-size: 14px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .navbar { padding: 0 16px; }
+  .nav-greeting { display: none; }
+  .actions-grid { grid-template-columns: repeat(3, 1fr); }
+  .actions-grid:has(#adminCard[style*="flex"]) { grid-template-columns: repeat(3, 1fr); }
+  .account-card { padding: 22px 20px; }
+  .card-balance { font-size: 24px; }
+}
+
+@media (max-width: 380px) {
+  .actions-grid { grid-template-columns: repeat(2, 1fr); }
+}

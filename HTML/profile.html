@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../CSS/generalStyles.css"/>
+  <link rel="stylesheet" href="../CSS/profile.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong></span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting">Hello…</span>
+    </div>
+  </nav>
+
+  <main class="page-main">
+
+    <a href="../dashboard.html" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <div class="page-card">
+
+      <!-- Profile Top -->
+      <div class="profile-top">
+        <div class="avatar-wrapper">
+          <div class="profile-avatar" id="profileAvatar">?</div>
+          <!-- Status dot indicator -->
+          <div class="status-dot" id="statusDot" title=""></div>
+        </div>
+        <div class="profile-top-info">
+          <h1 class="profile-name" id="profileName">Loading…</h1>
+          <div class="profile-badges">
+            <span class="profile-role" id="profileRole">—</span>
+            <!-- Account status badge -->
+            <span class="account-status-badge" id="accountStatusBadge"></span>
+            <!-- Verified badge -->
+            <span class="verified-badge" id="verifiedBadge" style="display:none;">
+              <i class="fa-solid fa-circle-check"></i> Verified
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details Grid -->
+      <div class="profile-grid">
+        <div class="profile-item">
+          <span class="profile-label"><i class="fa-solid fa-user"></i> Full Name</span>
+          <span class="profile-value" id="detailName">—</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label"><i class="fa-solid fa-envelope"></i> Email</span>
+          <span class="profile-value" id="detailEmail">—</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label"><i class="fa-solid fa-phone"></i> Phone</span>
+          <span class="profile-value" id="detailPhone">—</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label"><i class="fa-solid fa-wallet"></i> Account Type</span>
+          <span class="profile-value" id="detailAccountType">—</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label"><i class="fa-solid fa-hashtag"></i> Account Number</span>
+          <span class="profile-value" id="detailAccountNumber">—</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label"><i class="fa-solid fa-coins"></i> Current Balance</span>
+          <span class="profile-value balance-value" id="detailBalance">—</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label"><i class="fa-solid fa-calendar"></i> Member Since</span>
+          <span class="profile-value" id="detailCreated">—</span>
+        </div>
+      </div>
+
+      <hr class="profile-divider"/>
+
+      <!-- Edit Phone -->
+      <div class="edit-section">
+        <h2 class="edit-title">Update Phone Number</h2>
+        <form id="editPhoneForm" novalidate>
+          <div class="form-group edit-row">
+            <input type="tel" id="newPhone" placeholder="Enter new phone number"/>
+            <button type="submit" class="btn-action primary-btn edit-btn" id="editBtn">Save</button>
+          </div>
+          <div class="message" id="message"></div>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module" src="../Javascript/profile.js"></script>
+</body>
+</html>

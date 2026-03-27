@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="./CSS/dashboard.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong></span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting">Hello…</span>
+      <button class="btn-logout" id="logoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── BANNED BANNER (injected by JS if banned) ── -->
+
+  <!-- ── MAIN ── -->
+  <main class="dash-main">
+
+    <!-- Welcome -->
+    <div class="welcome-row">
+      <div>
+        <h1 class="welcome-title" id="welcomeName">Welcome back!</h1>
+        <p class="welcome-sub">Here's your account overview for today.</p>
+      </div>
+      <div class="welcome-date" id="todayDate"></div>
+    </div>
+
+    <!-- Account Card -->
+    <div class="account-card" id="accountCard">
+      <div class="card-top">
+        <div>
+          <p class="card-label">Account Name</p>
+          <p class="card-value" id="cardName">—</p>
+        </div>
+        <div class="card-type-badge" id="cardType">—</div>
+      </div>
+      <div class="card-middle">
+        <p class="card-label">Account Number</p>
+        <p class="card-number" id="cardNumber">—</p>
+      </div>
+      <div class="card-bottom">
+        <div>
+          <p class="card-label">Current Balance</p>
+          <p class="card-balance" id="cardBalance">Loading...</p>
+        </div>
+        <div class="card-chip">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <section class="section">
+      <h2 class="section-title">Quick Actions</h2>
+      <div class="actions-grid" id="actionsGrid">
+        <a href="./HTML/deposit.html" class="action-card" id="actionDeposit">
+          <div class="action-icon deposit-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+          <span>Deposit</span>
+        </a>
+        <a href="./HTML/withdraw.html" class="action-card" id="actionWithdraw">
+          <div class="action-icon withdraw-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+          <span>Withdraw</span>
+        </a>
+        <a href="./HTML/transfer.html" class="action-card" id="actionTransfer">
+          <div class="action-icon transfer-icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+          <span>Transfer</span>
+        </a>
+        <a href="./HTML/history.html" class="action-card">
+          <div class="action-icon history-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <span>History</span>
+        </a>
+        <a href="./HTML/profile.html" class="action-card">
+          <div class="action-icon profile-icon"><i class="fa-solid fa-user"></i></div>
+          <span>Profile</span>
+        </a>
+        <!-- Admin button — hidden by default, shown only for admin role -->
+        <a href="./HTML/admin.html" class="action-card admin-action-card" id="adminCard" style="display:none;">
+          <div class="action-icon admin-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <span>Admin Panel</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Recent Transactions -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Recent Transactions</h2>
+        <a href="./HTML/history.html" class="view-all">View all</a>
+      </div>
+      <div class="transactions-list" id="transactionsList">
+        <div class="tx-empty">Loading transactions…</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="./Javascript/dashboard.js"></script>
+</body>
+</html>
