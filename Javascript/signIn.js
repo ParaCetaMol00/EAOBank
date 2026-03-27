@@ -49,7 +49,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     showMessage("success", "Login successful! Redirecting…");
 
     setTimeout(() => {
-      window.location.href = "../dashboard.html";
+      window.location.href = "../index.html";
     }, 1200);
 
   } catch (error) {

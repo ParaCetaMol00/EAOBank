@@ -196,7 +196,7 @@ onAuthStateChanged(auth, async (user) => {
   try {
     const adminSnap = await getDoc(doc(db, "users", user.uid));
     if (!adminSnap.exists() || adminSnap.data().role !== "admin") {
-      alert("Access denied."); window.location.href = "../dashboard.html"; return;
+      alert("Access denied."); window.location.href = "../index.html"; return;
     }
     const firstName = adminSnap.data().fullName ? adminSnap.data().fullName.split(" ")[0] : "Admin";
     document.getElementById("navGreeting").textContent = firstName;

@@ -57,7 +57,7 @@ export function guardAdmin() {
         if (!userSnap.exists() || userSnap.data().role !== "admin") {
           // Not an admin — redirect to dashboard
           alert("Access denied. Admins only.");
-          window.location.href = "../dashboard.html";
+          window.location.href = "../index.html";
           return;
         }
 
