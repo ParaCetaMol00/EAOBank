@@ -3,15 +3,22 @@
 // Location: Javascript/dashboard.js
 // =============================================
 
+// NOTE: dashboard.html is at ROOT level.
+// dashboard.js is inside Javascript/ folder.
+// So the firebase path from dashboard.js is:
+// ../firebase/signIn-signUp.js  (go up one level)
+// But the auth redirect must point to:
+// ./HTML/SignIn.html  (relative to root, since the browser URL is root)
+
 import { auth, db } from "../firebase/signIn-signUp.js";
-import { onAuthStateChanged, signOut } 
+import { onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 import {
-  doc, getDoc, collection, query,
-  where, limit, getDocs
+  doc, getDoc, collection,
+  query, where, limit, getDocs
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-/* ── 1. Helpers ────────────────────────────────── */
+// ── Helpers ──────────────────────────────────
 
 function formatCurrency(amount) {
   return "$" + Number(amount).toLocaleString("en-US", {
@@ -37,103 +44,111 @@ function showTodayDate() {
   }
 }
 
-/* ── 2. Security & Status UI ───────────────────── */
+// ── Balance Visibility Toggle ─────────────────
+let balanceVisible = true;
+let actualBalance  = 0;
 
+function updateBalanceDisplay() {
+  const balanceEl = document.getElementById("cardBalance");
+  const eyeBtn    = document.getElementById("toggleBalanceBtn");
+  const eyeIcon   = eyeBtn ? eyeBtn.querySelector("i") : null;
+
+  if (balanceVisible) {
+    balanceEl.textContent = formatCurrency(actualBalance);
+    if (eyeIcon) { eyeIcon.classList.remove("fa-eye-slash"); eyeIcon.classList.add("fa-eye"); }
+    if (eyeBtn)  eyeBtn.title = "Hide balance";
+  } else {
+    balanceEl.textContent = "••••••";
+    if (eyeIcon) { eyeIcon.classList.remove("fa-eye"); eyeIcon.classList.add("fa-eye-slash"); }
+    if (eyeBtn)  eyeBtn.title = "Show balance";
+  }
+}
+
+const toggleBalanceBtn = document.getElementById("toggleBalanceBtn");
+if (toggleBalanceBtn) {
+  toggleBalanceBtn.addEventListener("click", () => {
+    balanceVisible = !balanceVisible;
+    updateBalanceDisplay();
+  });
+}
+
+// ── Show banned banner ────────────────────────
 function showBannedBanner() {
-  // Check if banner already exists to prevent duplicates
   if (document.getElementById("bannedBanner")) return;
-
   const banner = document.createElement("div");
   banner.id = "bannedBanner";
-  banner.className = "message error"; // Using your CSS classes
-  banner.style.margin = "20px 32px 0";
   banner.innerHTML = `
     <i class="fa-solid fa-circle-exclamation"></i>
-    <strong>Account Restricted:</strong> Deposits, Withdrawals, and Transfers are currently disabled.
+    <strong>Account Restricted:</strong> Deposits, Withdrawals and Transfers are disabled.
+    Please contact support.
   `;
-  
-  const main = document.querySelector("main");
-  if (main) document.body.insertBefore(banner, main);
+  document.body.insertBefore(banner, document.querySelector("main"));
 
-  // Disable action links
-  const restrictedActions = ["actionDeposit", "actionWithdraw", "actionTransfer"];
-  restrictedActions.forEach((id) => {
+  ["actionDeposit", "actionWithdraw", "actionTransfer"].forEach((id) => {
     const link = document.getElementById(id);
     if (link) {
       link.style.pointerEvents = "none";
       link.style.opacity = "0.4";
       link.removeAttribute("href");
-      link.title = "Action disabled due to account restriction";
+      link.title = "Account restricted";
     }
   });
 }
 
-/* ── 3. Data Loading ──────────────────────────── */
-
+// ── Load User Details ─────────────────────────
 async function loadUserDetails(uid) {
   try {
-    const userDocRef = doc(db, "users", uid);
-    const userSnap = await getDoc(userDocRef);
-
-    if (!userSnap.exists()) {
-      console.warn("User data not found in Firestore.");
-      return;
-    }
+    const userSnap = await getDoc(doc(db, "users", uid));
+    if (!userSnap.exists()) { console.warn("No Firestore document found."); return; }
 
     const data = userSnap.data();
 
-    // Update UI elements
-    document.getElementById("navGreeting").textContent = 
-      `Hello, ${data.fullName ? data.fullName.split(" ")[0] : "User"}`;
-    
-    document.getElementById("welcomeName").textContent = 
-      `Welcome back, ${data.fullName || "User"}!`;
+    document.getElementById("navGreeting").textContent =
+      "Hello, " + (data.fullName ? data.fullName.split(" ")[0] : "User");
 
-    document.getElementById("cardName").textContent    = data.fullName      || "—";
-    document.getElementById("cardNumber").textContent  = data.accountNumber || "—";
-    document.getElementById("cardType").textContent    = data.accountType   || "—";
-    document.getElementById("cardBalance").textContent = formatCurrency(data.balance || 0);
+    document.getElementById("welcomeName").textContent =
+      "Welcome back, " + (data.fullName || "User") + "!";
 
-    // FIX: Show Admin Panel if role is "admin" (case-insensitive)
-    const userRole = data.role ? data.role.toLowerCase() : "user";
-    if (userRole === "admin") {
+    document.getElementById("cardName").textContent   = data.fullName      || "—";
+    document.getElementById("cardNumber").textContent = data.accountNumber || "—";
+    document.getElementById("cardType").textContent   = data.accountType   || "—";
+
+    actualBalance = data.balance || 0;
+    updateBalanceDisplay();
+
+    // Show Admin Panel button only if admin
+    if (data.role === "admin") {
       const adminCard = document.getElementById("adminCard");
-      if (adminCard) {
-        adminCard.style.display = "flex";
-        // Ensure it's visible even if CSS has other rules
-        adminCard.style.setProperty("display", "flex", "important");
-      }
+      if (adminCard) adminCard.style.display = "flex";
     }
 
-    // Check for banned status
-    if (data.status === "banned") {
-      showBannedBanner();
-    }
+    // Show banned banner if restricted
+    if (data.status === "banned") showBannedBanner();
 
   } catch (err) {
-    console.error("Error fetching user data:", err);
+    console.error("Error loading user details:", err);
   }
 }
 
+// ── Load Recent Transactions ──────────────────
 async function loadRecentTransactions(uid) {
   const listEl = document.getElementById("transactionsList");
   if (!listEl) return;
 
   try {
-    const txQuery = query(
+    // Fetch ALL transactions for this user — no limit, no orderBy
+    // We sort in JS and take the 3 newest ourselves
+    const snapshot = await getDocs(query(
       collection(db, "transactions"),
-      where("userId", "==", uid),
-      limit(5) // Increased limit slightly for better overview
-    );
-    
-    const snapshot = await getDocs(txQuery);
+      where("userId", "==", uid)
+    ));
 
     if (snapshot.empty) {
-      listEl.innerHTML = '<div class="tx-empty">No recent activity found.</div>';
+      listEl.innerHTML = '<div class="tx-empty">No transactions yet.</div>';
       return;
     }
 
-    // Sort newest first
+    // Collect all, sort newest first, take top 3
     let txList = [];
     snapshot.forEach((d) => txList.push(d.data()));
     txList.sort((a, b) => {
@@ -141,25 +156,29 @@ async function loadRecentTransactions(uid) {
       const tB = b.timestamp ? b.timestamp.toMillis() : 0;
       return tB - tA;
     });
+    txList = txList.slice(0, 3); // take only the 3 newest
 
     let html = "";
     txList.forEach((tx) => {
       const isCredit = tx.type === "deposit" || tx.type === "transfer-in";
-      const cssClass = isCredit ? "credit" : "debit";
+      const isFailed = tx.status === "failed";
+      const cssClass = isFailed ? "debit" : (isCredit ? "credit" : "debit");
       const icon     = isCredit ? "fa-arrow-down" : "fa-arrow-up";
-      const sign     = isCredit ? "+" : "-";
+      const sign     = isFailed ? "" : (isCredit ? "+" : "-");
 
       html += `
         <div class="tx-item">
           <div class="tx-icon ${cssClass}">
-            <i class="fa-solid ${icon}"></i>
+            <i class="fa-solid ${isFailed ? "fa-xmark" : icon}"></i>
           </div>
           <div class="tx-info">
-            <div class="tx-type" style="text-transform: capitalize;">${tx.type || "Transaction"}</div>
+            <div class="tx-type">${tx.type || "Transaction"}
+              ${isFailed ? '<span class="tx-failed-tag">Failed</span>' : ""}
+            </div>
             <div class="tx-date">${formatDate(tx.timestamp)}</div>
           </div>
           <div class="tx-amount ${cssClass}">
-            ${sign}${formatCurrency(tx.amount)}
+            ${sign}${formatCurrency(tx.amount || 0)}
           </div>
         </div>`;
     });
@@ -167,41 +186,29 @@ async function loadRecentTransactions(uid) {
     listEl.innerHTML = html;
 
   } catch (err) {
-    listEl.innerHTML = '<div class="tx-empty">Error loading transactions.</div>';
-    console.error("Transaction Error:", err);
-  }
-}
+    listEl.innerHTML = '<div class="tx-empty">Could not load transactions.</div>';
+    console.error("Error loading transactions:", err);
+  }};
 
-/* ── 4. Core Auth Logic & Initialization ─────── */
-
-// Handle Logout properly
-const handleLogout = async () => {
+// ── Logout ────────────────────────────────────
+document.getElementById("logoutBtn").addEventListener("click", async () => {
   try {
     await signOut(auth);
-    // Use replace to prevent user from clicking "back" into the dashboard
+    // dashboard.html is at root, SignIn.html is in HTML/
     window.location.replace("./HTML/SignIn.html");
   } catch (err) {
-    console.error("Logout failed:", err);
-    alert("An error occurred while logging out.");
+    console.error("Logout error:", err);
   }
-};
+});
 
-// Main Observer
+// ── Auth Guard ────────────────────────────────
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    // If not logged in, kick back to Sign In
+    // dashboard.html is at root, SignIn.html is in HTML/
     window.location.href = "./HTML/SignIn.html";
     return;
   }
-
-  // User is logged in: Initialize page
   showTodayDate();
   loadUserDetails(user.uid);
   loadRecentTransactions(user.uid);
-
-  // Attach logout listener once the element exists
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn) {
-    logoutBtn.onclick = handleLogout;
-  }
 });

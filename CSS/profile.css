@@ -46,6 +46,12 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* ── Avatar with status dot ── */
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .profile-avatar {
   width: 62px;
   height: 62px;
@@ -57,19 +63,77 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   font-family: 'Playfair Display', serif;
+}
+
+/* Status dot sits bottom-right of avatar */
+.status-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+}
+
+.dot-active     { background: #2ECC71; }
+.dot-banned     { background: #E74C3C; }
+.dot-unverified { background: #F39C12; }
+
+/* ── Profile top-info ── */
+.profile-top-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Name row — name + status badge + verified badge side by side ── */
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .profile-name {
   font-family: 'Playfair Display', serif;
   font-size: 20px;
   color: var(--primary);
-  margin-bottom: 4px;
+  line-height: 1.2;
 }
 
+/* ── Status badge beside name ── */
+.account-status-badge {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.badge-active     { background: rgba(46,204,113,0.12); color: #1A8A4A; }
+.badge-banned     { background: rgba(231,76,60,0.10);  color: #C0392B; }
+.badge-unverified { background: rgba(243,156,18,0.12); color: #B7770D; }
+
+/* ── Verified checkmark badge ── */
+.verified-badge {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1A6FA8;
+  background: rgba(52,152,219,0.12);
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+/* ── Role badge below name row ── */
 .profile-role {
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -78,6 +142,7 @@
   display: inline-block;
   padding: 3px 10px;
   border-radius: 20px;
+  align-self: flex-start;
 }
 
 /* ── Details Grid ── */
@@ -123,6 +188,8 @@
 }
 
 /* ── Edit Section ── */
+/* .edit-section { } */
+
 .edit-title {
   font-size: 15px;
   font-weight: 600;
@@ -150,4 +217,5 @@
   .page-card    { padding: 24px 18px 22px; }
   .edit-row     { flex-direction: column; }
   .edit-btn     { width: 100%; }
+  .profile-name-row { flex-direction: column; align-items: flex-start; gap: 6px; }
 }

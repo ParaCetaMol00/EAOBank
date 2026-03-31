@@ -1,15 +1,7 @@
-// =============================================
-// signup.js — Signup Page Logic
-// =============================================
-
 import { auth,db } from "../firebase/signIn-signUp.js";
 
-import {
-  createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-import {
-  doc, setDoc, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 
 // ---- Helper: show a message in the message box ----

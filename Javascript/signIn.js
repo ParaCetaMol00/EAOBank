@@ -1,17 +1,32 @@
+// =============================================
+// signIn.js — Login Page Logic
+// Location: Javascript/signIn.js
+// =============================================
 
-import { auth } from "../firebase/signIn-signUp.js";
+import { auth, db } from "../firebase/signIn-signUp.js";
 import {
-  signInWithEmailAndPassword
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { doc, getDoc }
+  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-
+// ── Show login message ────────────────────────
 function showMessage(type, text) {
   const box = document.getElementById("message");
-  box.className = "message " + type; 
+  box.className   = "message " + type;
   box.textContent = text;
 }
 
+// ── Show forgot password message ──────────────
+function showForgotMessage(type, text) {
+  const box = document.getElementById("forgotMessage");
+  box.className   = "message " + type;
+  box.textContent = text;
+}
 
+// ── Password toggle ───────────────────────────
 document.getElementById("togglePassword").addEventListener("click", function () {
   const input = document.getElementById("password");
   const icon  = this.querySelector("i");
@@ -24,50 +39,110 @@ document.getElementById("togglePassword").addEventListener("click", function () 
   }
 });
 
-document.getElementById("loginForm").addEventListener("submit", async function (e) {
+// ── Toggle between Login and Forgot sections ──
+const loginSection  = document.getElementById("loginSection");
+const forgotSection = document.getElementById("forgotSection");
+
+document.getElementById("showForgotBtn").addEventListener("click", () => {
+  loginSection.style.display  = "none";
+  forgotSection.style.display = "block";
+  document.getElementById("forgotMessage").className   = "message";
+  document.getElementById("forgotMessage").textContent = "";
+});
+
+document.getElementById("backToLoginBtn").addEventListener("click", () => {
+  forgotSection.style.display = "none";
+  loginSection.style.display  = "block";
+  document.getElementById("message").className   = "message";
+  document.getElementById("message").textContent = "";
+});
+
+// ── Login form ────────────────────────────────
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const email    = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
   const btn      = document.getElementById("loginBtn");
 
-  // ---- Basic validation ----
   if (!email || !password) {
-    showMessage("error", "Please enter your email and password.");
-    return;
+    showMessage("error", "Please enter your email and password."); return;
   }
 
-  // ---- Disable button while processing ----
-  btn.disabled = true;
+  btn.disabled    = true;
   btn.textContent = "Signing in…";
 
   try {
-    // Sign in with Firebase Authentication
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-    // Show success and redirect to dashboard
     showMessage("success", "Login successful! Redirecting…");
 
-    setTimeout(() => {
-      window.location.href = "../index.html";
-    }, 1200);
+    
+    setTimeout(() => { window.location.href = "../index.html"; }, 1200);
 
   } catch (error) {
-    // Reset button
-    btn.disabled = false;
+    btn.disabled    = false;
     btn.textContent = "Login";
 
-    // Map Firebase error codes to friendly messages
     if (
-      error.code === "auth/user-not-found" || error.code === "auth/wrong-password" || error.code === "auth/invalid-credential"
+      error.code === "auth/user-not-found"     ||
+      error.code === "auth/wrong-password"     ||
+      error.code === "auth/invalid-credential"
     ) {
-      showMessage("error", "Incorrect email or password. Please try again.");
+      showMessage("error", "Incorrect email or password.");
     } else if (error.code === "auth/invalid-email") {
       showMessage("error", "Please enter a valid email address.");
     } else if (error.code === "auth/too-many-requests") {
-      showMessage("error", "Too many failed attempts. Please try again later.");
+      showMessage("error", "Too many attempts. Please try again later.");
     } else {
       showMessage("error", "Login failed: " + error.message);
     }
   }
+});
+
+
+
+document.getElementById("forgotForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("resetEmail").value.trim();
+  const btn   = document.getElementById("resetBtn");
+
+  if (!email) {
+    showForgotMessage("error", "Please enter your email address."); return;
+  }
+
+  btn.disabled    = true;
+  btn.textContent = "Sending…";
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+
+    showForgotMessage(
+      "success",
+      "Reset link sent! Check your inbox and spam folder."
+    );
+
+    document.getElementById("resetEmail").value = "";
+
+  } catch (error) {
+    console.error("Reset error:", error.code, error.message);
+
+    if (
+      error.code === "auth/user-not-found" ||
+      error.code === "auth/invalid-email"
+    ) {
+      showForgotMessage("error", "No account found with this email address.");
+    } else {
+      showForgotMessage("error", "Failed to send: " + error.message);
+    }
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = "Send Reset Link";
+  }
+});
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) { window.location.href = "../index.html"; }
 });
