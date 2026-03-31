@@ -35,6 +35,8 @@ function showMessage(type, text) {
 
 let currentUid = null;
 
+
+
 // ── Render Status Indicators ──────────────────
 // Shows a dot on avatar + a badge beside the name
 function renderStatus(data) {
@@ -57,6 +59,8 @@ function renderStatus(data) {
     dot.title     = "Account Active";
   }
 
+
+
   // ── Status badge beside name ──
   if (isBanned) {
     statusBadge.textContent = "Restricted";
@@ -68,6 +72,8 @@ function renderStatus(data) {
     statusBadge.textContent = "Active";
     statusBadge.className   = "account-status-badge badge-active";
   }
+
+
 
   // ── Verified checkmark badge ──
   if (verifiedBadge) {
