@@ -46,21 +46,21 @@ function showTodayDate() {
 
 // ── Balance Visibility Toggle ─────────────────
 let balanceVisible = true;
-let actualBalance  = 0;
+let actualBalance = 0;
 
 function updateBalanceDisplay() {
   const balanceEl = document.getElementById("cardBalance");
-  const eyeBtn    = document.getElementById("toggleBalanceBtn");
-  const eyeIcon   = eyeBtn ? eyeBtn.querySelector("i") : null;
+  const eyeBtn = document.getElementById("toggleBalanceBtn");
+  const eyeIcon = eyeBtn ? eyeBtn.querySelector("i") : null;
 
   if (balanceVisible) {
     balanceEl.textContent = formatCurrency(actualBalance);
     if (eyeIcon) { eyeIcon.classList.remove("fa-eye-slash"); eyeIcon.classList.add("fa-eye"); }
-    if (eyeBtn)  eyeBtn.title = "Hide balance";
+    if (eyeBtn) eyeBtn.title = "Hide balance";
   } else {
     balanceEl.textContent = "••••••";
     if (eyeIcon) { eyeIcon.classList.remove("fa-eye"); eyeIcon.classList.add("fa-eye-slash"); }
-    if (eyeBtn)  eyeBtn.title = "Show balance";
+    if (eyeBtn) eyeBtn.title = "Show balance";
   }
 }
 
@@ -109,9 +109,25 @@ async function loadUserDetails(uid) {
     document.getElementById("welcomeName").textContent =
       "Welcome back, " + (data.fullName || "User") + "!";
 
-    document.getElementById("cardName").textContent   = data.fullName      || "—";
-    document.getElementById("cardNumber").textContent = data.accountNumber || "—";
-    document.getElementById("cardType").textContent   = data.accountType   || "—";
+    document.getElementById("cardName").textContent = data.fullName || "—";
+    // Show only last 4 digits by default
+    const accountNumber = data.accountNumber || "—";
+    const masked = "•••• •••• " + accountNumber.slice(-4);
+    let numVisible = false;
+
+    const cardNumberEl = document.getElementById("cardNumber");
+    cardNumberEl.textContent = masked;
+    cardNumberEl.style.cursor = "pointer";
+    cardNumberEl.title = "Click to reveal";
+
+    // Toggle full number on click
+    cardNumberEl.addEventListener("click", () => {
+      numVisible = !numVisible;
+      cardNumberEl.textContent = numVisible ? accountNumber : masked;
+      cardNumberEl.title = numVisible ? "Click to hide" : "Click to reveal";
+    });
+    
+    document.getElementById("cardType").textContent = data.accountType || "—";
 
     actualBalance = data.balance || 0;
     updateBalanceDisplay();
@@ -163,8 +179,8 @@ async function loadRecentTransactions(uid) {
       const isCredit = tx.type === "deposit" || tx.type === "transfer-in";
       const isFailed = tx.status === "failed";
       const cssClass = isFailed ? "debit" : (isCredit ? "credit" : "debit");
-      const icon     = isCredit ? "fa-arrow-down" : "fa-arrow-up";
-      const sign     = isFailed ? "" : (isCredit ? "+" : "-");
+      const icon = isCredit ? "fa-arrow-down" : "fa-arrow-up";
+      const sign = isFailed ? "" : (isCredit ? "+" : "-");
 
       html += `
         <div class="tx-item">
@@ -188,14 +204,15 @@ async function loadRecentTransactions(uid) {
   } catch (err) {
     listEl.innerHTML = '<div class="tx-empty">Could not load transactions.</div>';
     console.error("Error loading transactions:", err);
-  }};
+  }
+};
 
 // ── Logout ────────────────────────────────────
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   try {
     await signOut(auth);
     // dashboard.html is at root, SignIn.html is in HTML/
-    window.location.replace("./HTML/SignIn.html");
+    window.location.replace("../HTML/SignIn.html");
   } catch (err) {
     console.error("Logout error:", err);
   }
@@ -205,7 +222,7 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     // dashboard.html is at root, SignIn.html is in HTML/
-    window.location.href = "./HTML/SignIn.html";
+    window.location.href = "../HTML/SignIn.html";
     return;
   }
   showTodayDate();

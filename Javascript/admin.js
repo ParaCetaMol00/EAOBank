@@ -44,7 +44,7 @@ async function checkAdminRole(uid) {
     const userSnap = await getDoc(doc(db, "users", uid));
     if (!userSnap.exists() || userSnap.data().role !== "admin") {
       alert("Access denied. Admins only.");
-      window.location.href = "../index.html"; return false;
+      window.location.href = "../dashboard.html"; return false;
     }
     const firstName = userSnap.data().fullName ? userSnap.data().fullName.split(" ")[0] : "Admin";
     document.getElementById("navGreeting").textContent = firstName;

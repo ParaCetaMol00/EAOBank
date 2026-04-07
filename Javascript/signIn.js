@@ -78,7 +78,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     showMessage("success", "Login successful! Redirecting…");
 
     
-    setTimeout(() => { window.location.href = "../index.html"; }, 1200);
+    setTimeout(() => { window.location.href = "dashboard.html"; }, 1200);
 
   } catch (error) {
     btn.disabled    = false;
@@ -144,5 +144,5 @@ document.getElementById("forgotForm").addEventListener("submit", async (e) => {
 
 
 onAuthStateChanged(auth, (user) => {
-  if (user) { window.location.href = "../index.html"; }
+  if (user) { window.location.href = "dashboard.html"; }
 });

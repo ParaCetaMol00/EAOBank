@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — Request Card</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../CSS/generalStyles.css"/>
+  <link rel="stylesheet" href="../CSS/card.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong></span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting">Hello…</span>
+    </div>
+  </nav>
+
+  <main class="page-main">
+
+    <a href="./dashboard.html" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <div class="page-card">
+
+      <div class="page-card-header card-header-style">
+        <div class="page-card-icon card-page-icon">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+        <div>
+          <h1 class="page-card-title">Request a Card</h1>
+          <p class="page-card-sub">Apply for a debit or credit card delivered to your door</p>
+        </div>
+      </div>
+
+      <form id="cardForm" novalidate>
+
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" readonly/>
+        </div>
+
+        <div class="form-group">
+          <label for="accountNumber">Account Number</label>
+          <input type="text" id="accountNumber" readonly/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cardType">Card Type</label>
+            <div class="select-wrapper">
+              <select id="cardType" required>
+                <option value="" disabled selected>Select type</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="Credit Card">Credit Card</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cardNetwork">Card Network</label>
+            <div class="select-wrapper">
+              <select id="cardNetwork" required>
+                <option value="" disabled selected>Select network</option>
+                <option value="Verve">Verve</option>
+                <option value="Visa">Visa</option>
+                <option value="Mastercard">Mastercard</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Delivery Address</label>
+          <textarea id="address" rows="3" placeholder="Enter your full delivery address…" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-action primary-btn" id="cardBtn">
+          <i class="fa-solid fa-credit-card"></i> Submit Card Request
+        </button>
+
+        <div class="message" id="message"></div>
+
+      </form>
+    </div>
+
+    <!-- Previous Card Requests -->
+    <div class="prev-section">
+      <h2 class="prev-title">Previous Card Requests</h2>
+      <div id="prevCards" class="prev-list">
+        <p class="prev-empty">Loading…</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="../Javascript/card.js"></script>
+</body>
+</html>

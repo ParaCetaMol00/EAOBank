@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — Loan Application</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../CSS/generalStyles.css"/>
+  <link rel="stylesheet" href="../CSS/loan.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong></span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting">Hello…</span>
+    </div>
+  </nav>
+
+  <main class="page-main">
+
+    <a href="./dashboard.html" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <div class="page-card">
+
+      <div class="page-card-header loan-header-style">
+        <div class="page-card-icon loan-page-icon">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+        </div>
+        <div>
+          <h1 class="page-card-title">Loan Application</h1>
+          <p class="page-card-sub">Apply for a loan — fast approval, flexible terms</p>
+        </div>
+      </div>
+
+      <form id="loanForm" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" readonly/>
+          </div>
+          <div class="form-group">
+            <label for="accountNumber">Account Number</label>
+            <input type="text" id="accountNumber" readonly/>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="amount">Loan Amount ($)</label>
+            <div class="input-prefix-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="amount" placeholder="0.00" min="1" step="0.01" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="loanType">Loan Type</label>
+            <div class="select-wrapper">
+              <select id="loanType" required>
+                <option value="" disabled selected>Select type</option>
+                <option value="Personal">Personal</option>
+                <option value="Business">Business</option>
+                <option value="Education">Education</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="duration">Duration (months)</label>
+            <input type="number" id="duration" placeholder="e.g. 12" min="1" required/>
+          </div>
+          <div class="form-group">
+            <label for="income">Monthly Income ($)</label>
+            <div class="input-prefix-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="income" placeholder="0.00" min="1" step="0.01" required/>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="purpose">Purpose of Loan</label>
+          <textarea id="purpose" rows="4" placeholder="Describe what you need the loan for…" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-action loan-btn" id="loanBtn">
+          <i class="fa-solid fa-paper-plane"></i> Submit Application
+        </button>
+
+        <div class="message" id="message"></div>
+
+      </form>
+    </div>
+
+    <!-- Previous Loans -->
+    <div class="prev-section">
+      <h2 class="prev-title">Previous Loan Applications</h2>
+      <div id="prevLoans" class="prev-list">
+        <p class="prev-empty">Loading…</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="../Javascript/loan.js"></script>
+</body>
+</html>
