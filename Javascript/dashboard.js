@@ -212,7 +212,7 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
   try {
     await signOut(auth);
     // dashboard.html is at root, SignIn.html is in HTML/
-    window.location.replace("../HTML/SignIn.html");
+    window.location.replace("../index.html");
   } catch (err) {
     console.error("Logout error:", err);
   }
@@ -222,7 +222,7 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     // dashboard.html is at root, SignIn.html is in HTML/
-    window.location.href = "../HTML/SignIn.html";
+    window.location.href = "../index.html";
     return;
   }
   showTodayDate();
