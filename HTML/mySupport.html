@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EAO Bank — My Support</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../CSS/generalStyles.css"/>
+  <link rel="stylesheet" href="../CSS/history.css">
+  <link rel="stylesheet" href="../CSS/admin.css"/>
+</head>
+
+<style>
+    .nav-link {
+  background: rgba(255,255,255,0.12); color: #fff;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+  padding: 7px 14px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; text-decoration: none;
+  display: flex; align-items: center; gap: 7px; transition: background 0.2s;
+  color: #fff;
+};
+
+/* .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--secondary);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}; */
+
+</style>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
+      <span class="nav-title">EAO <strong>Bank</strong></span>
+    </div>
+
+    <div class="nav-right">
+      <a href="./dashboard.html" class="nav-link">Dashboard</a>
+      <button class="btn-logout" id="logoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="admin-main">
+
+    <a href="./profile.html" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> Back to Profile
+    </a>
+
+    <h1 class="admin-heading">My Support Tickets</h1>
+    <p class="admin-sub">Track your complaints and responses</p>
+
+
+    <div class="table-card">
+      <div class="table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+
+          <tbody id="mySupportTableBody">
+            <tr>
+              <td colspan="4" class="tx-loading">Loading your tickets…</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="../Javascript/mySupport.js"></script>
+</body>
+</html>

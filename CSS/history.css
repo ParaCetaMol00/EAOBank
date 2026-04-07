@@ -25,7 +25,8 @@
   text-decoration: none;
   margin-bottom: 24px;
   transition: color 0.2s;
-}
+};
+
 .back-link:hover { color: var(--primary); }
 
 /* ── Page Header ── */

@@ -68,6 +68,7 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
 
   try {
     await addDoc(collection(db, "support"), {
+      userId: auth.currentUser ? auth.currentUser.uid : null,
       fullName:      fullName,
       email:         email,
       accountNumber: accountNumber || "",

@@ -4,12 +4,8 @@
 // =============================================
 
 import { auth, db } from "../firebase/signIn-signUp.js";
-import { onAuthStateChanged, signOut }
-  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-import {
-  doc, getDoc, getDocs, updateDoc,
-  deleteDoc, collection
-} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { doc, getDoc, getDocs, updateDoc, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 function formatCurrency(amount) {
   return "$" + Number(amount).toLocaleString("en-US", {
@@ -228,8 +224,93 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
   catch (err) { console.error("Logout error:", err); }
 });
 
+async function loadSupportMessages() {
+  const tbody = document.getElementById("supportTableBody");
+
+  try {
+    const snapshot = await getDocs(collection(db, "support"));
+
+    if (snapshot.empty) {
+      tbody.innerHTML = `<tr><td colspan="8" class="tx-loading">No messages found.</td></tr>`;
+      return;
+    }
+
+    let rows = [];
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const id = docSnap.id;
+
+      rows.push({
+        id,
+        ...data
+      });
+    });
+
+    // Sort newest first
+    rows.sort((a, b) => {
+      const tA = a.createdAt ? a.createdAt.toMillis() : 0;
+      const tB = b.createdAt ? b.createdAt.toMillis() : 0;
+      return tB - tA;
+    });
+
+    let html = "";
+
+    rows.forEach((msg) => {
+      html += `
+        <tr>
+          <td>${msg.fullName || "—"}</td>
+          <td>${msg.email || "—"}</td>
+          <td>${msg.accountNumber || "—"}</td>
+          <td>${msg.issueType || "—"}</td>
+          <td>${msg.message || "—"}</td>
+          <td>
+            <span class="status-badge ${msg.status}">
+              ${msg.status}
+            </span>
+          </td>
+          <td>${formatDate(msg.createdAt)}</td>
+          <td>
+            ${
+              msg.status === "open"
+                ? `<button onclick="markResolved('${msg.id}')" class="btn-action small-btn">
+                     Resolve
+                   </button>`
+                : "—"
+            }
+          </td>
+        </tr>
+      `;
+    });
+
+    tbody.innerHTML = html;
+
+  } catch (err) {
+    console.error("Error loading support messages:", err);
+    tbody.innerHTML = `<tr><td colspan="8" class="tx-loading">Failed to load messages.</td></tr>`;
+  }
+};
+
+window.markResolved = async (id) => {
+  if (!confirm("Mark this message as resolved?")) return;
+
+  try {
+    await updateDoc(doc(db, "support", id), {
+      status: "resolved"
+    });
+
+    alert("Marked as resolved.");
+    loadSupportMessages();
+
+  } catch (err) {
+    alert("Failed: " + err.message);
+  }
+};
+
+
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) { window.location.href = "./SignIn.html"; return; }
   const isAdmin = await checkAdminRole(user.uid);
-  if (isAdmin) { loadUsers(); loadTransactions(); }
+  if (isAdmin) { loadUsers(); loadTransactions();  loadSupportMessages(); }
 });

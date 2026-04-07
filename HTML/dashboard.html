@@ -12,7 +12,8 @@
   <div style="background: #ffcc00; padding: 10px; text-align: center; font-weight: bold;">
   ⚠️ This is a demo project for learning purposes only. Not a real bank.
 </div>
-  <!-- ── NAVBAR ── -->
+  
+
   <nav class="navbar">
     <div class="nav-brand">
       <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
@@ -26,10 +27,10 @@
     </div>
   </nav>
 
-  <!-- ── MAIN ── -->
+  
   <main class="dash-main">
 
-    <!-- Welcome -->
+   
     <div class="welcome-row">
       <div>
         <h1 class="welcome-title" id="welcomeName">Welcome back!</h1>
@@ -38,7 +39,7 @@
       <div class="welcome-date" id="todayDate"></div>
     </div>
 
-    <!-- Account Card -->
+    
     <div class="account-card" id="accountCard">
       <div class="card-top">
         <div>
@@ -54,7 +55,7 @@
       <div class="card-bottom">
         <div>
           <p class="card-label">Current Balance</p>
-          <!-- Balance + eye toggle button side by side -->
+          
           <div class="balance-row">
             <p class="card-balance" id="cardBalance">Loading...</p>
             <button
@@ -72,7 +73,8 @@
       </div>
     </div>
 
-    <!-- Quick Actions -->
+
+    
     <section class="section">
       <h2 class="section-title">Quick Actions</h2>
       <div class="actions-grid" id="actionsGrid">
@@ -100,6 +102,16 @@
           <div class="action-icon profile-icon"><i class="fa-solid fa-user"></i></div>
           <span>Profile</span>
         </a>
+
+        <a href="./card.html" class="action-card">
+          <div class="action-icon profile-icon"><i class="fa-solid fa-credit-card"></i></div>
+          <span>Apply for a Card</span>
+        </a>
+
+        <a href="./loan.html" class="action-card">
+          <div class="action-icon profile-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <span>Apply for a Loan</span>
+        </a>
        
         <a href="./admin.html" class="action-card admin-action-card" id="adminCard" style="display:none;">
           <div class="action-icon admin-icon"><i class="fa-solid fa-shield-halved"></i></div>
@@ -108,7 +120,7 @@
       </div>
     </section>
 
-    <!-- Recent Transactions -->
+    
     <section class="section">
       <div class="section-header">
         <h2 class="section-title">Recent Transactions</h2>

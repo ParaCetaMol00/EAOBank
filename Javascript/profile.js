@@ -40,23 +40,23 @@ let currentUid = null;
 // ── Render Status Indicators ──────────────────
 // Shows a dot on avatar + a badge beside the name
 function renderStatus(data) {
-  const dot           = document.getElementById("statusDot");
-  const statusBadge   = document.getElementById("accountStatusBadge");
+  const dot = document.getElementById("statusDot");
+  const statusBadge = document.getElementById("accountStatusBadge");
   const verifiedBadge = document.getElementById("verifiedBadge");
 
-  const isBanned   = data.status   === "banned";
+  const isBanned = data.status === "banned";
   const isVerified = data.verified === true;
 
   // ── Status dot on avatar ──
   if (isBanned) {
     dot.className = "status-dot dot-banned";
-    dot.title     = "Account Restricted";
+    dot.title = "Account Restricted";
   } else if (!isVerified) {
     dot.className = "status-dot dot-unverified";
-    dot.title     = "Verification Needed";
+    dot.title = "Verification Needed";
   } else {
     dot.className = "status-dot dot-active";
-    dot.title     = "Account Active";
+    dot.title = "Account Active";
   }
 
 
@@ -64,13 +64,13 @@ function renderStatus(data) {
   // ── Status badge beside name ──
   if (isBanned) {
     statusBadge.textContent = "Restricted";
-    statusBadge.className   = "account-status-badge badge-banned";
+    statusBadge.className = "account-status-badge badge-banned";
   } else if (!isVerified) {
     statusBadge.textContent = "Needs Verification";
-    statusBadge.className   = "account-status-badge badge-unverified";
+    statusBadge.className = "account-status-badge badge-unverified";
   } else {
     statusBadge.textContent = "Active";
-    statusBadge.className   = "account-status-badge badge-active";
+    statusBadge.className = "account-status-badge badge-active";
   }
 
 
@@ -99,16 +99,16 @@ async function loadProfile(uid) {
 
     // Name and role
     document.getElementById("profileName").textContent = data.fullName || "—";
-    document.getElementById("profileRole").textContent = data.role     || "user";
+    document.getElementById("profileRole").textContent = data.role || "user";
 
     // Detail fields
-    document.getElementById("detailName").textContent          = data.fullName      || "—";
-    document.getElementById("detailEmail").textContent         = data.email         || "—";
-    document.getElementById("detailPhone").textContent         = data.phone         || "—";
-    document.getElementById("detailAccountType").textContent   = data.accountType   || "—";
+    document.getElementById("detailName").textContent = data.fullName || "—";
+    document.getElementById("detailEmail").textContent = data.email || "—";
+    document.getElementById("detailPhone").textContent = data.phone || "—";
+    document.getElementById("detailAccountType").textContent = data.accountType || "—";
     document.getElementById("detailAccountNumber").textContent = data.accountNumber || "—";
-    document.getElementById("detailBalance").textContent       = formatCurrency(data.balance || 0);
-    document.getElementById("detailCreated").textContent       = formatDate(data.createdAt);
+    document.getElementById("detailBalance").textContent = formatCurrency(data.balance || 0);
+    document.getElementById("detailCreated").textContent = formatDate(data.createdAt);
 
     // Render status dot and badge
     renderStatus(data);
@@ -123,7 +123,7 @@ document.getElementById("editPhoneForm").addEventListener("submit", async (e) =>
   e.preventDefault();
 
   const newPhone = document.getElementById("newPhone").value.trim();
-  const btn      = document.getElementById("editBtn");
+  const btn = document.getElementById("editBtn");
 
   if (!newPhone || newPhone.length < 7 || !/^\d+$/.test(newPhone)) {
     showMessage("error", "Please enter a valid phone number (digits only)."); return;
@@ -132,19 +132,35 @@ document.getElementById("editPhoneForm").addEventListener("submit", async (e) =>
     showMessage("error", "User not loaded. Please refresh."); return;
   }
 
-  btn.disabled    = true;
+  btn.disabled = true;
   btn.textContent = "Saving…";
 
   try {
-    await updateDoc(doc(db, "users", currentUid), { phone: newPhone });
-    document.getElementById("detailPhone").textContent = newPhone;
-    showMessage("success", "Phone number updated successfully!");
-    document.getElementById("newPhone").value = "";
-  } catch (err) {
-    console.error("Phone update error:", err);
-    showMessage("error", "Failed to update: " + err.message);
+    try {
+      // Update phone AND set verified to true at the same time
+      await updateDoc(doc(db, "users", currentUid), {
+        phone: newPhone,
+        verified: true
+      });
+
+      document.getElementById("detailPhone").textContent = newPhone;
+
+      // Update the status indicators immediately without reloading
+      document.getElementById("statusDot").className = "status-dot dot-active";
+      document.getElementById("statusDot").title = "Account Active";
+      document.getElementById("accountStatusBadge").textContent = "Active";
+      document.getElementById("accountStatusBadge").className = "account-status-badge badge-active";
+      document.getElementById("verifiedBadge").style.display = "inline-flex";
+
+      showMessage("success", "Phone number updated. Your account is now verified!");
+      document.getElementById("newPhone").value = "";
+
+    } catch (err) {
+      console.error("Phone update error:", err);
+      showMessage("error", "Failed to update: " + err.message);
+    }
   } finally {
-    btn.disabled    = false;
+    btn.disabled = false;
     btn.textContent = "Save";
   }
 });
