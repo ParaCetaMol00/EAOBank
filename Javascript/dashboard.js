@@ -1,15 +1,3 @@
-// =============================================
-// dashboard.js — Dashboard Page Logic
-// Location: Javascript/dashboard.js
-// =============================================
-
-// NOTE: dashboard.html is at ROOT level.
-// dashboard.js is inside Javascript/ folder.
-// So the firebase path from dashboard.js is:
-// ../firebase/signIn-signUp.js  (go up one level)
-// But the auth redirect must point to:
-// ./HTML/SignIn.html  (relative to root, since the browser URL is root)
-
 import { auth, db } from "../firebase/signIn-signUp.js";
 import { onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
@@ -18,7 +6,7 @@ import {
   query, where, limit, getDocs
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-// ── Helpers ──────────────────────────────────
+
 
 function formatCurrency(amount) {
   return "$" + Number(amount).toLocaleString("en-US", {
@@ -44,7 +32,7 @@ function showTodayDate() {
   }
 }
 
-// ── Balance Visibility Toggle ─────────────────
+
 let balanceVisible = true;
 let actualBalance = 0;
 
@@ -72,7 +60,7 @@ if (toggleBalanceBtn) {
   });
 }
 
-// ── Show banned banner ────────────────────────
+
 function showBannedBanner() {
   if (document.getElementById("bannedBanner")) return;
   const banner = document.createElement("div");
@@ -95,7 +83,7 @@ function showBannedBanner() {
   });
 }
 
-// ── Load User Details ─────────────────────────
+
 async function loadUserDetails(uid) {
   try {
     const userSnap = await getDoc(doc(db, "users", uid));
@@ -110,7 +98,8 @@ async function loadUserDetails(uid) {
       "Welcome back, " + (data.fullName || "User") + "!";
 
     document.getElementById("cardName").textContent = data.fullName || "—";
-    // Show only last 4 digits by default
+    
+    
     const accountNumber = data.accountNumber || "—";
     const masked = "•••• •••• " + accountNumber.slice(-4);
     let numVisible = false;
@@ -120,7 +109,7 @@ async function loadUserDetails(uid) {
     cardNumberEl.style.cursor = "pointer";
     cardNumberEl.title = "Click to reveal";
 
-    // Toggle full number on click
+
     cardNumberEl.addEventListener("click", () => {
       numVisible = !numVisible;
       cardNumberEl.textContent = numVisible ? accountNumber : masked;
@@ -132,13 +121,13 @@ async function loadUserDetails(uid) {
     actualBalance = data.balance || 0;
     updateBalanceDisplay();
 
-    // Show Admin Panel button only if admin
+    
     if (data.role === "admin") {
       const adminCard = document.getElementById("adminCard");
       if (adminCard) adminCard.style.display = "flex";
     }
 
-    // Show banned banner if restricted
+    
     if (data.status === "banned") showBannedBanner();
 
   } catch (err) {
@@ -146,14 +135,13 @@ async function loadUserDetails(uid) {
   }
 }
 
-// ── Load Recent Transactions ──────────────────
+
 async function loadRecentTransactions(uid) {
   const listEl = document.getElementById("transactionsList");
   if (!listEl) return;
 
   try {
-    // Fetch ALL transactions for this user — no limit, no orderBy
-    // We sort in JS and take the 3 newest ourselves
+    
     const snapshot = await getDocs(query(
       collection(db, "transactions"),
       where("userId", "==", uid)
@@ -164,7 +152,7 @@ async function loadRecentTransactions(uid) {
       return;
     }
 
-    // Collect all, sort newest first, take top 3
+    
     let txList = [];
     snapshot.forEach((d) => txList.push(d.data()));
     txList.sort((a, b) => {
@@ -176,7 +164,7 @@ async function loadRecentTransactions(uid) {
 
     let html = "";
     txList.forEach((tx) => {
-      const isCredit = tx.type === "deposit" || tx.type === "transfer-in";
+      const isCredit = tx.type === "deposit" || tx.type === "transfer-in" || tx.type === "loan";
       const isFailed = tx.status === "failed";
       const cssClass = isFailed ? "debit" : (isCredit ? "credit" : "debit");
       const icon = isCredit ? "fa-arrow-down" : "fa-arrow-up";
@@ -207,7 +195,7 @@ async function loadRecentTransactions(uid) {
   }
 };
 
-// ── Logout ────────────────────────────────────
+
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   try {
     await signOut(auth);
@@ -218,10 +206,9 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
   }
 });
 
-// ── Auth Guard ────────────────────────────────
+
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    // dashboard.html is at root, SignIn.html is in HTML/
     window.location.href = "../index.html";
     return;
   }

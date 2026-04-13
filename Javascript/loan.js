@@ -18,7 +18,9 @@ function formatCurrency(amount) {
 function formatDate(timestamp) {
   if (!timestamp) return "—";
   const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-  return date.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
+  return date.toLocaleDateString("en-US", {
+    day: "2-digit", month: "short", year: "numeric"
+  });
 }
 
 function showMessage(type, text) {
@@ -38,10 +40,22 @@ async function loadUserData(uid) {
     if (!userSnap.exists()) return;
 
     currentUserData = userSnap.data();
-    const firstName = currentUserData.fullName ? currentUserData.fullName.split(" ")[0] : "User";
+    const firstName = currentUserData.fullName
+      ? currentUserData.fullName.split(" ")[0] : "User";
+
     document.getElementById("navGreeting").textContent = "Hello, " + firstName;
     document.getElementById("fullName").value          = currentUserData.fullName      || "";
     document.getElementById("accountNumber").value     = currentUserData.accountNumber || "";
+
+    // Warn unverified users before they even submit
+    if (!currentUserData.verified) {
+      showMessage(
+        "error",
+        "⚠ Your account is not verified. Loan applications will be automatically declined. " +
+        "Please update your phone number on your profile to get verified."
+      );
+    }
+
   } catch (err) {
     console.error("Error loading user:", err);
   }
@@ -62,7 +76,7 @@ async function loadPreviousLoans(uid) {
     }
 
     let loans = [];
-    snapshot.forEach((d) => loans.push(d.data()));
+    snapshot.forEach((d) => loans.push({ id: d.id, ...d.data() }));
     loans.sort((a, b) => {
       const tA = a.createdAt ? a.createdAt.toMillis() : 0;
       const tB = b.createdAt ? b.createdAt.toMillis() : 0;
@@ -76,8 +90,13 @@ async function loadPreviousLoans(uid) {
           <span class="prev-loan-meta">${l.type} Loan — ${l.duration} month(s)</span>
           <span class="prev-loan-meta">Purpose: ${l.purpose || "—"}</span>
           <span class="prev-loan-meta">Applied: ${formatDate(l.createdAt)}</span>
+          ${l.declineReason
+            ? `<span class="prev-loan-reason">Reason: ${l.declineReason}</span>`
+            : ""}
         </div>
-        <span class="prev-loan-status status-${l.status || "pending"}">${l.status || "pending"}</span>
+        <span class="prev-loan-status status-${l.status || "pending"}">
+          ${l.status || "pending"}
+        </span>
       </div>
     `).join("");
 
@@ -98,11 +117,13 @@ document.getElementById("loanForm").addEventListener("submit", async (e) => {
   const purpose  = document.getElementById("purpose").value.trim();
   const btn      = document.getElementById("loanBtn");
 
-  // Validate
+  // Validate fields
   if (!amount || isNaN(amount) || amount <= 0) {
     showMessage("error", "Please enter a valid loan amount greater than $0."); return;
   }
-  if (!loanType) { showMessage("error", "Please select a loan type."); return; }
+  if (!loanType) {
+    showMessage("error", "Please select a loan type."); return;
+  }
   if (!duration || isNaN(duration) || duration < 1) {
     showMessage("error", "Please enter a valid duration in months."); return;
   }
@@ -116,7 +137,39 @@ document.getElementById("loanForm").addEventListener("submit", async (e) => {
   btn.disabled  = true;
   btn.innerHTML = "Submitting…";
 
+  // ── Check verification status ──
+  // If user is not verified, instantly decline the loan
+  const isVerified = currentUserData && currentUserData.verified === true;
+
   try {
+    if (!isVerified) {
+      // Save as declined immediately
+      await addDoc(collection(db, "loans"), {
+        userId:        currentUser.uid,
+        fullName:      currentUserData.fullName      || "",
+        accountNumber: currentUserData.accountNumber || "",
+        amount:        amount,
+        type:          loanType,
+        duration:      duration,
+        income:        income,
+        purpose:       purpose,
+        status:        "declined",
+        declineReason: "Account not verified. Please update your phone number on your profile.",
+        createdAt:     serverTimestamp()
+      });
+
+      showMessage(
+        "error",
+        "Your loan application was automatically declined because your account is not verified. " +
+        "Please update your phone number on your Profile page to get verified, then apply again."
+      );
+
+      // Refresh list to show the declined record
+      loadPreviousLoans(currentUser.uid);
+      return;
+    }
+
+    // User is verified — save as pending for admin review
     await addDoc(collection(db, "loans"), {
       userId:        currentUser.uid,
       fullName:      currentUserData.fullName      || "",
@@ -132,17 +185,16 @@ document.getElementById("loanForm").addEventListener("submit", async (e) => {
 
     showMessage(
       "success",
-      "Loan request submitted successfully. Await approval."
+      "Loan application submitted successfully. Your application is under review."
     );
 
-    // Clear form
-    document.getElementById("amount").value    = "";
-    document.getElementById("loanType").value  = "";
-    document.getElementById("duration").value  = "";
-    document.getElementById("income").value    = "";
-    document.getElementById("purpose").value   = "";
+    // Clear form fields
+    document.getElementById("amount").value   = "";
+    document.getElementById("loanType").value = "";
+    document.getElementById("duration").value = "";
+    document.getElementById("income").value   = "";
+    document.getElementById("purpose").value  = "";
 
-    // Refresh previous loans
     loadPreviousLoans(currentUser.uid);
 
   } catch (err) {

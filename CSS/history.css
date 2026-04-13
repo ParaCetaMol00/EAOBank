@@ -1,8 +1,3 @@
-/* =============================================
-   history.css — Transaction History Styles
-   Location: CSS/history.css
-   ============================================= */
-
 .history-main {
   max-width: 960px;
   margin: 0 auto;
@@ -29,7 +24,7 @@
 
 .back-link:hover { color: var(--primary); }
 
-/* ── Page Header ── */
+
 .history-header {
   display: flex;
   align-items: center;
@@ -62,7 +57,7 @@
   color: var(--muted);
 }
 
-/* ── Table Card ── */
+
 .table-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -75,7 +70,7 @@
   overflow-x: auto; /* scroll on small screens */
 }
 
-/* ── Table ── */
+
 .tx-table {
   width: 100%;
   border-collapse: collapse;
@@ -130,12 +125,12 @@
 .type-badge.withdraw    { background: rgba(231,76,60,0.10);   color: #C0392B; }
 .type-badge.transfer    { background: rgba(60,99,130,0.10);   color: #2C4F6E; }
 .type-badge.transfer-in { background: rgba(46,204,113,0.12);  color: #1A8A4A; }
+.type-badge.loan        { background: rgba(39,174,96,0.12); color: #1A7A46;}
 
-/* ── Amount ── */
 .amount-credit { color: #1A8A4A; font-weight: 700; }
 .amount-debit  { color: #C0392B; font-weight: 700; }
 
-/* ── Status Badge ── */
+
 .status-badge {
   display: inline-block;
   padding: 3px 10px;
@@ -147,7 +142,6 @@
 .status-badge.success { background: rgba(46,204,113,0.12); color: #1A8A4A; }
 .status-badge.failed  { background: rgba(231,76,60,0.10);  color: #C0392B; }
 
-/* ── Empty / Loading state ── */
 .tx-loading {
   text-align: center;
   color: var(--muted);

@@ -10,10 +10,6 @@
 </head>
 <body>
 
-  <div style="background: #ffcc00; padding: 10px; text-align: center; font-weight: bold;">
-  ⚠️ This is a demo project for learning purposes only. Not a real bank.
-</div>
-
   <nav class="navbar">
     <div class="nav-brand">
       <div class="nav-logo"><i class="fa-solid fa-landmark"></i></div>
@@ -21,7 +17,7 @@
     </div>
     <div class="nav-right">
       <span class="nav-greeting" id="navGreeting">Admin</span>
-      <a href="./dashboard.html" class="btn-dash">
+      <a href="../HTML/dashboard.html" class="btn-dash">
         <i class="fa-solid fa-gauge"></i> Dashboard
       </a>
       <button class="btn-logout" id="logoutBtn">
@@ -33,7 +29,7 @@
   <main class="admin-main">
 
     <h1 class="admin-heading">Admin Dashboard</h1>
-    <p class="admin-sub">Manage users and monitor all transactions</p>
+    <p class="admin-sub">Manage users, transactions, loans and card requests</p>
 
     <!-- Summary Cards -->
     <div class="summary-grid">
@@ -47,7 +43,7 @@
       <div class="summary-card">
         <div class="summary-icon tx-icon"><i class="fa-solid fa-list"></i></div>
         <div class="summary-info">
-          <p class="summary-label">Total Transactions</p>
+          <p class="summary-label">Transactions</p>
           <p class="summary-value" id="totalTx">—</p>
         </div>
       </div>
@@ -72,9 +68,23 @@
           <p class="summary-value" id="totalTransfers">—</p>
         </div>
       </div>
+      <div class="summary-card">
+        <div class="summary-icon loan-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        <div class="summary-info">
+          <p class="summary-label">Pending Loans</p>
+          <p class="summary-value" id="totalPendingLoans">—</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon card-icon"><i class="fa-solid fa-credit-card"></i></div>
+        <div class="summary-info">
+          <p class="summary-label">Card Requests</p>
+          <p class="summary-value" id="totalPendingCards">—</p>
+        </div>
+      </div>
     </div>
 
-
+    <!-- Users Table -->
     <div class="admin-section">
       <h2 class="admin-section-title">All Users</h2>
       <div class="table-card">
@@ -101,7 +111,61 @@
       </div>
     </div>
 
+    <!-- Loan Applications -->
+    <div class="admin-section">
+      <h2 class="admin-section-title">Loan Applications</h2>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Account No.</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Duration</th>
+                <th>Income</th>
+                <th>Purpose</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="loansTableBody">
+              <tr><td colspan="10" class="tx-loading">Loading loans…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
+    <!-- Card Requests -->
+    <div class="admin-section">
+      <h2 class="admin-section-title">Card Requests</h2>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Account No.</th>
+                <th>Card Type</th>
+                <th>Network</th>
+                <th>Delivery Address</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="cardsTableBody">
+              <tr><td colspan="8" class="tx-loading">Loading card requests…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transactions Table -->
     <div class="admin-section">
       <h2 class="admin-section-title">All Transactions</h2>
       <div class="table-card">
@@ -126,35 +190,6 @@
         </div>
       </div>
     </div>
-
-    <div class="admin-section">
-  <h2 class="admin-section-title">Customer Support Messages</h2>
-
-  <div class="table-card">
-    <div class="table-wrapper">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Account No.</th>
-            <th>Issue</th>
-            <th>Message</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody id="supportTableBody">
-          <tr>
-            <td colspan="8" class="tx-loading">Loading messages…</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
 
   </main>
 

@@ -1,8 +1,3 @@
-// =============================================
-// history.js — Transaction History Page Logic
-// Location: Javascript/history.js
-// =============================================
-
 import { auth, db } from "../firebase/signIn-signUp.js";
 import { onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
@@ -25,7 +20,7 @@ function formatDate(timestamp) {
 }
 
 function isCredit(type) {
-  return type === "deposit" || type === "transfer-in";
+  return type === "deposit" || type === "transfer-in" || type === "loan";
 }
 
 async function loadTransactions(uid) {
@@ -58,7 +53,7 @@ async function loadTransactions(uid) {
       if (tx.type === "transfer")    accountInfo = "To: "   + (tx.receiverAccount || "—");
       if (tx.type === "transfer-in") accountInfo = "From: " + (tx.senderAccount   || "—");
 
-      // Show fail reason if available
+     
       const reasonHtml = isFailed && tx.failReason
         ? `<div class="fail-reason"><i class="fa-solid fa-circle-info"></i> ${tx.failReason}</div>`
         : "";

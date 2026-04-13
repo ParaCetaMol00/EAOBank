@@ -148,7 +148,7 @@ body {
   display: flex; justify-content: space-between; align-items: flex-end;
 }
 
-/* ── Balance with eye toggle ── */
+
 .balance-row {
   display: flex; align-items: center; gap: 12px;
 }
@@ -173,7 +173,7 @@ body {
 
 .card-chip { font-size: 28px; color: rgba(255,255,255,0.35); }
 
-/* ── Sections ── */
+
 .section { margin-bottom: 36px; }
 
 .section-header {
@@ -238,7 +238,7 @@ body {
   box-shadow: 0 8px 28px rgba(142,68,173,0.15);
 }
 
-/* ── Transactions List ── */
+
 .transactions-list {
   background: var(--white); border: 1px solid var(--border);
   border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
@@ -267,7 +267,7 @@ body {
 }
 .tx-date { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-/* Failed tag in recent transactions */
+
 .tx-failed-tag {
   font-size: 10.5px; font-weight: 700; color: #C0392B;
   background: rgba(231,76,60,0.10); border-radius: 4px; padding: 1px 6px;
@@ -276,13 +276,14 @@ body {
 .tx-amount { font-size: 15px; font-weight: 700; }
 .tx-amount.credit { color: #27AE60; }
 .tx-amount.debit  { color: #C0392B; }
+.type-badge.loan  { background: rgba(39,174,96,0.12); color: #1A7A46; }
 
 .tx-empty {
   padding: 32px; text-align: center;
   color: var(--muted); font-size: 14px;
 }
 
-/* ── Responsive ── */
+
 @media (max-width: 700px) {
   .navbar { padding: 0 16px; }
   .nav-greeting { display: none; }
