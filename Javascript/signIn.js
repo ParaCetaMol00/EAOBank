@@ -1,32 +1,22 @@
-// =============================================
-// signIn.js — Login Page Logic
-// Location: Javascript/signIn.js
-// =============================================
-
 import { auth, db } from "../firebase/signIn-signUp.js";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-import { doc, getDoc }
-  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-// ── Show login message ────────────────────────
+
 function showMessage(type, text) {
   const box = document.getElementById("message");
   box.className   = "message " + type;
   box.textContent = text;
 }
 
-// ── Show forgot password message ──────────────
+
 function showForgotMessage(type, text) {
   const box = document.getElementById("forgotMessage");
   box.className   = "message " + type;
   box.textContent = text;
 }
 
-// ── Password toggle ───────────────────────────
+
 document.getElementById("togglePassword").addEventListener("click", function () {
   const input = document.getElementById("password");
   const icon  = this.querySelector("i");
@@ -39,7 +29,7 @@ document.getElementById("togglePassword").addEventListener("click", function () 
   }
 });
 
-// ── Toggle between Login and Forgot sections ──
+
 const loginSection  = document.getElementById("loginSection");
 const forgotSection = document.getElementById("forgotSection");
 
@@ -57,7 +47,7 @@ document.getElementById("backToLoginBtn").addEventListener("click", () => {
   document.getElementById("message").textContent = "";
 });
 
-// ── Login form ────────────────────────────────
+
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 

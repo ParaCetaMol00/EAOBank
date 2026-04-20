@@ -1,6 +1,3 @@
-// support.js — Location: Javascript/support.js
-// Accessible to both logged-in and non-logged users
-
 import { auth, db } from "../firebase/signIn-signUp.js";
 import { onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
@@ -17,7 +14,7 @@ function showMessage(type, text) {
   box.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
-// ── Auto-fill if user is logged in ───────────
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) return; // not logged in — leave form empty
 
@@ -42,7 +39,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ── Form Submission ───────────────────────────
+
 document.getElementById("supportForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -53,7 +50,7 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
   const message       = document.getElementById("message").value.trim();
   const btn           = document.getElementById("submitBtn");
 
-  // Validate
+
   if (!fullName) { showMessage("error", "Please enter your full name."); return; }
   if (!email || !/\S+@\S+\.\S+/.test(email)) {
     showMessage("error", "Please enter a valid email address."); return;

@@ -21,7 +21,7 @@ function formatDate(timestamp) {
   });
 }
 
-// 🔹 Load user's support tickets
+
 async function loadMySupport(uid) {
   const tbody = document.getElementById("mySupportTableBody");
 

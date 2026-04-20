@@ -1,8 +1,3 @@
-// =============================================
-// profile.js — Profile Page Logic
-// Location: Javascript/profile.js
-// =============================================
-
 import { auth, db } from "../firebase/signIn-signUp.js";
 import { onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";

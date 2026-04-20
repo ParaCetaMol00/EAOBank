@@ -4,16 +4,16 @@ import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebase
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 
-// ---- Helper: show a message in the message box ----
+
 function showMessage(type, text) {
   const box = document.getElementById("message");
   box.className = "message " + type; // "success" or "error"
   box.textContent = text;
 }
 
-// ---- Helper: generate a random 10-digit account number ----
+
 function generateAccountNumber() {
-  // Produces a string like "3812047591"
+ 
   let num = "";
   for (let i = 0; i < 10; i++) {
     num += Math.floor(Math.random() * 10).toString();
@@ -21,7 +21,7 @@ function generateAccountNumber() {
   return num;
 }
 
-// ---- Password visibility toggles ----
+
 document.getElementById("togglePassword").addEventListener("click", function () {
   const input = document.getElementById("password");
   const icon  = this.querySelector("i");
@@ -46,7 +46,7 @@ document.getElementById("toggleConfirmPassword").addEventListener("click", funct
   }
 });
 
-// ---- Signup form submission ----
+
 document.getElementById("signupForm").addEventListener("submit", async function (e) {
   e.preventDefault(); // prevent page refresh
 
@@ -59,7 +59,7 @@ document.getElementById("signupForm").addEventListener("submit", async function 
   const confirmPassword = document.getElementById("confirmPassword").value;
   const btn            = document.getElementById("signupBtn");
 
-  // ---- Validation ----
+ 
   if (!fullName || !email || !phone || !accountType || !password || !confirmPassword) {
     showMessage("error", "Please fill in all fields.");
     return;
@@ -80,19 +80,17 @@ document.getElementById("signupForm").addEventListener("submit", async function 
     return;
   }
 
-  // ---- Disable button while processing ----
+ 
   btn.disabled = true;
   btn.textContent = "Creating account…";
 
   try {
-    // 1. Create user with Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // 2. Generate account number and set default balance
+   
     const accountNumber = generateAccountNumber();
 
-    // 3. Save user details to Firestore under "users" collection
     await setDoc(doc(db, "users", user.uid), {
       uid:           user.uid,
       fullName:      fullName,
@@ -104,7 +102,6 @@ document.getElementById("signupForm").addEventListener("submit", async function 
       createdAt:     serverTimestamp()
     });
 
-    // 4. Show success message and redirect
     showMessage("success", "Account created successfully! Redirecting to login…");
 
     setTimeout(() => {

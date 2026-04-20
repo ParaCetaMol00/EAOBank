@@ -1,7 +1,3 @@
-// =============================================
-// transfer.js — Transfer Page Logic
-// Location: Javascript/transfer.js
-// =============================================
 
 import { auth, db } from "../firebase/signIn-signUp.js";
 import { onAuthStateChanged }
@@ -12,7 +8,7 @@ import {
   query, where, getDocs, writeBatch
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-// ── Helpers ──────────────────────────────────
+
 
 function formatCurrency(amount) {
   return "$" + Number(amount).toLocaleString("en-US", {
@@ -27,13 +23,13 @@ function showMessage(type, text) {
   setTimeout(() => { box.className = "message"; box.textContent = ""; }, 6000);
 }
 
-// ── Stored user info ──────────────────────────
+
 let currentUser = null;
 let currentUserData = null;
 let recipientDocId = null;
 let recipientDocData = null;
 
-// ── Load User Data ────────────────────────────
+
 async function loadUserData(uid) {
   try {
     const userSnap = await getDoc(doc(db, "users", uid));
@@ -57,7 +53,7 @@ async function loadUserData(uid) {
   }
 }
 
-// ── Live Recipient Lookup ─────────────────────
+
 let lookupTimeout = null;
 
 document.getElementById("recipientAccount").addEventListener("input", () => {
@@ -254,7 +250,7 @@ document.getElementById("transferForm").addEventListener("submit", async (e) => 
   }
 });
 
-// ── Auth Guard ────────────────────────────────
+
 onAuthStateChanged(auth, (user) => {
   if (!user) { window.location.href = "./SignIn.html"; return; }
   currentUser = user;

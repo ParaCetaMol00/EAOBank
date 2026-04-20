@@ -58,7 +58,7 @@ if (toggleBalanceBtn) {
     balanceVisible = !balanceVisible;
     updateBalanceDisplay();
   });
-}
+};
 
 
 function showBannedBanner() {

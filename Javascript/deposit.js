@@ -1,7 +1,4 @@
-// =============================================
-// deposit.js — Deposit Page Logic
-// Location: Javascript/deposit.js
-// =============================================
+
 
 import { auth, db } from "../firebase/signIn-signUp.js";
 
@@ -13,7 +10,7 @@ import {
   collection, addDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-// ── Helpers ──────────────────────────────────
+
 
 function formatCurrency(amount) {
   return "$" + Number(amount).toLocaleString("en-US", {
@@ -32,11 +29,11 @@ function showMessage(type, text) {
   }, 5000);
 }
 
-// ── Stored user info ──────────────────────────
+
 let currentUser     = null;
 let currentUserData = null;
 
-// ── Load User Data ────────────────────────────
+
 async function loadUserData(uid) {
   try {
     const userSnap = await getDoc(doc(db, "users", uid));
@@ -53,7 +50,7 @@ async function loadUserData(uid) {
     document.getElementById("currentBalance").textContent =
       formatCurrency(currentUserData.balance || 0);
 
-    // ── Block if banned ──
+    
     if (currentUserData.status === "banned") {
       showMessage("error", "Your account is restricted. You cannot make deposits.");
       document.getElementById("depositBtn").disabled = true;
@@ -65,11 +62,11 @@ async function loadUserData(uid) {
   }
 }
 
-// ── Handle Deposit Submission ─────────────────
+
 document.getElementById("depositForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // Block banned users
+  
   if (currentUserData && currentUserData.status === "banned") {
     showMessage("error", "Your account is restricted. Contact support.");
     return;
@@ -128,7 +125,7 @@ document.getElementById("depositForm").addEventListener("submit", async (e) => {
   }
 });
 
-// ── Auth Guard ────────────────────────────────
+
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "./SignIn.html";

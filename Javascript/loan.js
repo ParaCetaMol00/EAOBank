@@ -33,7 +33,7 @@ function showMessage(type, text) {
 let currentUser     = null;
 let currentUserData = null;
 
-// ── Load user and auto-fill ───────────────────
+
 async function loadUserData(uid) {
   try {
     const userSnap = await getDoc(doc(db, "users", uid));
@@ -47,7 +47,7 @@ async function loadUserData(uid) {
     document.getElementById("fullName").value          = currentUserData.fullName      || "";
     document.getElementById("accountNumber").value     = currentUserData.accountNumber || "";
 
-    // Warn unverified users before they even submit
+    
     if (!currentUserData.verified) {
       showMessage(
         "error",
@@ -61,7 +61,7 @@ async function loadUserData(uid) {
   }
 }
 
-// ── Load previous loan applications ──────────
+
 async function loadPreviousLoans(uid) {
   const container = document.getElementById("prevLoans");
   try {
@@ -106,7 +106,7 @@ async function loadPreviousLoans(uid) {
   }
 }
 
-// ── Handle Form Submission ────────────────────
+
 document.getElementById("loanForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -117,7 +117,7 @@ document.getElementById("loanForm").addEventListener("submit", async (e) => {
   const purpose  = document.getElementById("purpose").value.trim();
   const btn      = document.getElementById("loanBtn");
 
-  // Validate fields
+
   if (!amount || isNaN(amount) || amount <= 0) {
     showMessage("error", "Please enter a valid loan amount greater than $0."); return;
   }
@@ -137,13 +137,12 @@ document.getElementById("loanForm").addEventListener("submit", async (e) => {
   btn.disabled  = true;
   btn.innerHTML = "Submitting…";
 
-  // ── Check verification status ──
-  // If user is not verified, instantly decline the loan
+  
   const isVerified = currentUserData && currentUserData.verified === true;
 
   try {
     if (!isVerified) {
-      // Save as declined immediately
+     
       await addDoc(collection(db, "loans"), {
         userId:        currentUser.uid,
         fullName:      currentUserData.fullName      || "",
@@ -164,12 +163,12 @@ document.getElementById("loanForm").addEventListener("submit", async (e) => {
         "Please update your phone number on your Profile page to get verified, then apply again."
       );
 
-      // Refresh list to show the declined record
+      
       loadPreviousLoans(currentUser.uid);
       return;
     }
 
-    // User is verified — save as pending for admin review
+    
     await addDoc(collection(db, "loans"), {
       userId:        currentUser.uid,
       fullName:      currentUserData.fullName      || "",
